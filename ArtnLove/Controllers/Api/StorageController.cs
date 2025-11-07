@@ -42,8 +42,14 @@ public class StorageController : ControllerBase
         var body = new { expires_in = req.expiresInSeconds > 0 ? req.expiresInSeconds : 3600 };
 
         // Use Service Role key in header for signing (server-side)
-        client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", _supabase.AnonKey);
-        // Note: Supabase requires service role key for some operations — ensure you pass correct key in secrets. Here we use AnonKey by default; replace with ServiceRoleKey if required.
+        // Use the service role key server-side to request signed URLs.
+        var roleKey = _supabase.ServiceRoleKey;
+        if (string.IsNullOrEmpty(roleKey))
+        {
+            _logger.LogWarning("ServiceRoleKey not configured; cannot create signed URLs securely.");
+            return StatusCode(403, new { message = "Service role key not configured on server" });
+        }
+        client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", roleKey);
 
         try
         {
@@ -55,8 +61,19 @@ public class StorageController : ControllerBase
                 return StatusCode((int)resp.StatusCode, new { message = "Failed to create signed URL", detail = text });
             }
 
-            var json = await resp.Content.ReadFromJsonAsync<object>();
-            return Ok(json);
+            // Supabase sign endpoint returns either a JSON string or JSON object; return raw content to the client
+            var raw = await resp.Content.ReadAsStringAsync();
+            // Try parse JSON
+            try
+            {
+                var parsed = System.Text.Json.JsonSerializer.Deserialize<object>(raw);
+                return Ok(parsed);
+            }
+            catch
+            {
+                // return raw string if not JSON
+                return Ok(new { signed = raw });
+            }
         }
         catch (Exception ex)
         {

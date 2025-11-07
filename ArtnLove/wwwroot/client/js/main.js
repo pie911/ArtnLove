@@ -70,25 +70,68 @@ if (uploadForm) {
   uploadForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const fd = new FormData(uploadForm);
-    const payload = {
-      title: fd.get('title'),
-      description: fd.get('description')
-      // In production, you would obtain a signed upload URL and upload file directly to Supabase Storage.
-    };
-
+    const file = document.getElementById('imageInput').files[0];
+    const bucket = fd.get('bucket') || 'public';
+    const title = fd.get('title');
+    const description = fd.get('description');
     const resEl = document.getElementById('result');
+
+    if (!file) {
+      resEl.innerHTML = `<div class="alert alert-warning">Please select a file.</div>`;
+      return;
+    }
+
     try {
-      const res = await fetch('/api/v1/artworks', {
+      // Generate a safe path for upload
+      const ext = file.name.split('.').pop();
+      const filename = `${Date.now()}-${Math.random().toString(36).slice(2,8)}.${ext}`;
+      const path = `uploads/${filename}`;
+
+      // Request signed URL from server
+      const presignResp = await fetch('/api/v1/storage/presign', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+        body: JSON.stringify({ bucket: bucket, path: path, expiresInSeconds: 3600 })
       });
-      if (!res.ok) throw new Error('Create failed');
-      const data = await res.json();
-      resEl.innerHTML = `<div class="alert alert-success">Created artwork (id: ${data.id})</div>`;
+      if (!presignResp.ok) throw new Error('Failed to obtain signed URL');
+
+      const presignBody = await presignResp.json();
+      // Supabase sometimes returns a raw URL string or a JSON with signedURL — try common shapes
+      let signedUrl = null;
+      if (typeof presignBody === 'string') signedUrl = presignBody;
+      else if (presignBody?.signedURL) signedUrl = presignBody.signedURL;
+      else if (presignBody?.signed) signedUrl = presignBody.signed;
+      else {
+        // Try object with url property
+        signedUrl = Object.values(presignBody)[0];
+      }
+
+      if (!signedUrl) throw new Error('Signed URL not returned from server');
+
+      // Upload file directly to Storage using PUT
+      const uploadResp = await fetch(signedUrl, {
+        method: 'PUT',
+        headers: { 'Content-Type': file.type },
+        body: file
+      });
+      if (!uploadResp.ok) throw new Error('Upload failed');
+
+      // Construct a public-accessible URL for the stored object (depends on bucket policy). Adjust if bucket is private.
+      const publicUrl = `${window.location.origin}/storage/v1/object/public/${bucket}/${encodeURIComponent(path)}`;
+
+      // Create artwork metadata record (pointing to stored path)
+      const createResp = await fetch('/api/v1/artworks', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, description, mediaUrls: [publicUrl] })
+      });
+      if (!createResp.ok) throw new Error('Failed to create artwork record');
+      const created = await createResp.json();
+
+      resEl.innerHTML = `<div class="alert alert-success">Uploaded and created artwork (id: ${created.id})</div>`;
     } catch (err) {
       console.error(err);
-      resEl.innerHTML = `<div class="alert alert-danger">Error creating artwork</div>`;
+      resEl.innerHTML = `<div class="alert alert-danger">${err.message || 'Error during upload'}</div>`;
     }
   });
 }

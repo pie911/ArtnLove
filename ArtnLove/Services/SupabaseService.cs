@@ -19,6 +19,7 @@ public class SupabaseService
 
     public string ProjectUrl => _options.Url ?? string.Empty;
     public string AnonKey => _options.AnonKey ?? string.Empty;
+    public string ServiceRoleKey => _options.ServiceRoleKey ?? string.Empty;
     public bool HasServiceRoleKey => !string.IsNullOrEmpty(_options.ServiceRoleKey);
 
     public void LogConfig()
