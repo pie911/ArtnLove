@@ -13,6 +13,8 @@ builder.Services.AddHttpClient();
 // Upload options
 builder.Services.Configure<UploadOptions>(builder.Configuration.GetSection("Uploads"));
 builder.Services.AddSingleton<ArtnLove.Data.ArtRepository>();
+// Image analysis service
+builder.Services.AddSingleton<ArtnLove.Services.ImageAnalysisService>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddHealthChecks();
 
