@@ -10,6 +10,9 @@ builder.Services.Configure<SupabaseOptions>(builder.Configuration.GetSection("Su
 builder.Services.AddSingleton<SupabaseService>();
 builder.Services.AddSingleton<SupabaseAuthService>();
 builder.Services.AddHttpClient();
+// Upload options
+builder.Services.Configure<UploadOptions>(builder.Configuration.GetSection("Uploads"));
+builder.Services.AddSingleton<ArtnLove.Data.ArtRepository>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddHealthChecks();
 

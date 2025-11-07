@@ -91,7 +91,7 @@ if (uploadForm) {
       const presignResp = await fetch('/api/v1/storage/presign', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ bucket: bucket, path: path, expiresInSeconds: 3600 })
+        body: JSON.stringify({ bucket: bucket, path: path, expiresInSeconds: 3600, contentType: file.type, contentLength: file.size })
       });
       if (!presignResp.ok) throw new Error('Failed to obtain signed URL');
 

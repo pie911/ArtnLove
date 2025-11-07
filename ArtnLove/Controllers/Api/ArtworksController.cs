@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ArtnLove.Services;
+using ArtnLove.Data;
+using System.Text.Json;
 
 namespace ArtnLove.Controllers.Api;
 
@@ -9,34 +11,46 @@ public class ArtworksController : ControllerBase
 {
     private readonly ILogger<ArtworksController> _logger;
     private readonly SupabaseService _supabase;
+    private readonly ArtRepository _repo;
 
-    public ArtworksController(ILogger<ArtworksController> logger, SupabaseService supabase)
+    public ArtworksController(ILogger<ArtworksController> logger, SupabaseService supabase, ArtRepository repo)
     {
         _logger = logger;
         _supabase = supabase;
+        _repo = repo;
     }
 
     [HttpGet]
-    public IActionResult List([FromQuery] int limit = 20)
+    public async Task<IActionResult> List([FromQuery] int limit = 20)
     {
-        var sample = new[]
-        {
-            new { id = Guid.NewGuid(), title = "Sunset", owner = "sampleuser", price = 100.0 }
-        };
-        return Ok(sample);
+        var items = await _repo.ListAsync();
+        return Ok(items.Take(limit));
     }
 
+    public record CreateArtworkDto(string title, string? description, string[]? mediaUrls);
+
     [HttpPost]
-    public IActionResult Create([FromBody] object payload)
+    public async Task<IActionResult> Create([FromBody] CreateArtworkDto payload)
     {
-        // Placeholder - validate and persist
-        var id = Guid.NewGuid();
-        return CreatedAtAction(nameof(Get), new { id }, payload);
+        if (string.IsNullOrWhiteSpace(payload.title)) return BadRequest(new { message = "title is required" });
+
+        var obj = new
+        {
+            title = payload.title,
+            description = payload.description,
+            mediaUrls = payload.mediaUrls ?? Array.Empty<string>()
+        };
+
+        var id = await _repo.AddAsync(obj);
+        return CreatedAtAction(nameof(Get), new { id }, new { id, obj });
     }
 
     [HttpGet("{id:guid}")]
-    public IActionResult Get(Guid id)
+    public async Task<IActionResult> Get(Guid id)
     {
-        return Ok(new { id, title = "Sunset", description = "Sample artwork", mediaUrls = new string[] { } });
+        var items = await _repo.ListAsync();
+        var found = items.FirstOrDefault(e => e.TryGetProperty("id", out var idp) && idp.GetGuid() == id);
+        if (found.ValueKind == JsonValueKind.Undefined) return NotFound();
+        return Ok(found);
     }
 }
