@@ -1,0 +1,88 @@
+# Visual Studio / .NET
+bin/
+obj/
+**/bin/
+**/obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.vs/
+
+# Rider
+.idea/
+
+# Visual Studio Code
+.vscode/
+
+# Build results
+*.log
+*.vsix
+
+# NuGet
+*.nupkg
+# The packages folder can be ignored because of Package Restore
+**/packages/*
+!**/packages/build/
+
+# Dotnet publish
+publish/
+publish_output/
+
+# Secret / local env files
+.env
+.env.*
+secrets.json
+appsettings.*.Local.json
+appsettings.Local.json
+appsettings.*.Secrets.json
+
+# User secrets (if using dotnet user-secrets)
+secrets/
+
+# ASP.NET Scaffolding
+*.compiled
+
+# Certificates
+*.pfx
+*.key
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Coverage
+coverage*
+*.coverage
+*.coveragexml
+coverage/**
+
+# Test results
+TestResults/
+
+# npm/node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# JetBrains Rider
+.idea/
+
+# Generated files
+**/*.g.cs
+**/*.designer.cs
+
+# EF Core Migrations snapshot (keep migration SQL files, but ignore snapshots if you don't want them)
+**/Migrations/*.Designer.cs
+
+# Supabase CLI local state
+.supabase/
+
+# Misc
+*.db
+*.sqlite

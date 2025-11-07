@@ -1,0 +1,5 @@
+/* Minimal styles for client demo */
+body { background: #f8f9fa; }
+.avatar { width:64px; height:64px; border-radius:8px; }
+#gallery { min-height: 200px; }
+.card-img-top { height: 180px; object-fit: cover; }
