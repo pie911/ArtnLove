@@ -1,8 +1,331 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿﻿@{
+    ViewData["Title"] = "ArtnLove - Discover & Showcase Art";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!-- Hero Section -->
+<section class="hero-section bg-gradient-primary text-white py-5 position-relative overflow-hidden">
+    <div class="container position-relative">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-4 animate-fade-in">Discover Amazing Art</h1>
+                <p class="lead mb-4 animate-slide-up">
+                    ArtnLove is your premier destination for discovering, uploading, and showcasing artwork.
+                    Join our vibrant community of artists and art enthusiasts.
+                </p>
+                <div class="d-flex gap-3 animate-slide-up-delay">
+                    <a href="/client/index.html" class="btn btn-light btn-lg px-4 btn-3d">
+                        <i class="bi bi-images me-2"></i>Browse Gallery
+                    </a>
+                    <a href="/client/upload.html" class="btn btn-outline-light btn-lg px-4 btn-3d-outline">
+                        <i class="bi bi-cloud-upload me-2"></i>Upload Art
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6 position-relative">
+                <div class="hero-3d-container">
+                    <div class="hero-image-placeholder bg-white bg-opacity-10 rounded-3 p-5 text-center floating-card">
+                        <i class="bi bi-palette display-1 text-white animate-pulse"></i>
+                        <p class="mt-3">Your art deserves to be seen</p>
+                    </div>
+                    <!-- 3D Floating Elements -->
+                    <div class="floating-shape shape-1"></div>
+                    <div class="floating-shape shape-2"></div>
+                    <div class="floating-shape shape-3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Background Pattern -->
+    <div class="hero-bg-pattern"></div>
+</section>
+
+<!-- Features Section -->
+<section class="features-section py-5">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-12">
+                <h2 class="display-5 fw-bold">Why Choose ArtnLove?</h2>
+                <p class="lead text-muted">Experience the future of art sharing with our cutting-edge platform</p>
+            </div>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card h-100 p-4 border rounded-3 shadow-sm">
+                    <div class="feature-icon mb-3">
+                        <i class="bi bi-lightning-charge text-primary display-4"></i>
+                    </div>
+                    <h3 class="h4 fw-bold">Fast Uploads</h3>
+                    <p class="text-muted">Lightning-fast image uploads with our optimized Supabase-powered storage system.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card h-100 p-4 border rounded-3 shadow-sm">
+                    <div class="feature-icon mb-3">
+                        <i class="bi bi-shield-check text-success display-4"></i>
+                    </div>
+                    <h3 class="h4 fw-bold">Secure & Private</h3>
+                    <p class="text-muted">Your artwork is protected with enterprise-grade security and privacy controls.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card h-100 p-4 border rounded-3 shadow-sm">
+                    <div class="feature-icon mb-3">
+                        <i class="bi bi-people text-info display-4"></i>
+                    </div>
+                    <h3 class="h4 fw-bold">Community Driven</h3>
+                    <p class="text-muted">Connect with fellow artists and build your portfolio in our supportive community.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Gallery Preview Section -->
+<section class="gallery-preview bg-light py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h2 class="display-5 fw-bold mb-4">Explore Our Gallery</h2>
+                <p class="lead mb-4">
+                    Discover incredible artwork from talented artists around the world.
+                    From digital art to traditional paintings, find inspiration in our curated collection.
+                </p>
+                <a href="/client/index.html" class="btn btn-primary btn-lg px-4">
+                    <i class="bi bi-arrow-right me-2"></i>View Full Gallery
+                </a>
+            </div>
+            <div class="col-lg-6">
+                <div class="gallery-preview-grid">
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <div class="preview-card bg-secondary rounded-3" style="height: 120px;"></div>
+                        </div>
+                        <div class="col-6">
+                            <div class="preview-card bg-primary rounded-3" style="height: 120px;"></div>
+                        </div>
+                        <div class="col-6">
+                            <div class="preview-card bg-info rounded-3" style="height: 120px;"></div>
+                        </div>
+                        <div class="col-6">
+                            <div class="preview-card bg-success rounded-3" style="height: 120px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action Section -->
+<section class="cta-section bg-primary text-white py-5">
+    <div class="container text-center">
+        <h2 class="display-5 fw-bold mb-4">Ready to Share Your Art?</h2>
+        <p class="lead mb-4">
+            Join thousands of artists who trust ArtnLove to showcase their work.
+            Upload your first piece today and start building your online presence.
+        </p>
+        <div class="d-flex justify-content-center gap-3">
+            <a href="/client/upload.html" class="btn btn-light btn-lg px-4">
+                <i class="bi bi-plus-circle me-2"></i>Upload Artwork
+            </a>
+            <a href="/client/profile.html" class="btn btn-outline-light btn-lg px-4">
+                <i class="bi bi-person me-2"></i>Create Profile
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Custom Styles -->
+<style>
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .hero-section {
+        min-height: 70vh;
+        display: flex;
+        align-items: center;
+    }
+
+    .hero-image-placeholder {
+        min-height: 300px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* 3D Button Effects */
+    .btn-3d {
+        transform: translateY(0);
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .btn-3d:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+    }
+
+    .btn-3d-outline {
+        transform: translateY(0);
+        transition: all 0.3s ease;
+        border: 2px solid;
+        position: relative;
+    }
+
+    .btn-3d-outline::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(255,255,255,0.1);
+        border-radius: inherit;
+        transform: translateY(0);
+        transition: transform 0.3s ease;
+        z-index: -1;
+    }
+
+    .btn-3d-outline:hover::before {
+        transform: translateY(-2px);
+    }
+
+    /* 3D Floating Elements */
+    .hero-3d-container {
+        position: relative;
+        perspective: 1000px;
+    }
+
+    .floating-card {
+        transform-style: preserve-3d;
+        animation: float 6s ease-in-out infinite;
+    }
+
+    .floating-shape {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.1);
+        backdrop-filter: blur(10px);
+    }
+
+    .shape-1 {
+        width: 60px;
+        height: 60px;
+        top: 20%;
+        left: 10%;
+        animation: float-reverse 8s ease-in-out infinite;
+    }
+
+    .shape-2 {
+        width: 40px;
+        height: 40px;
+        top: 60%;
+        right: 15%;
+        animation: float 10s ease-in-out infinite;
+    }
+
+    .shape-3 {
+        width: 80px;
+        height: 80px;
+        bottom: 10%;
+        left: 20%;
+        animation: float-reverse 7s ease-in-out infinite;
+    }
+
+    /* Animations */
+    @@keyframes float {
+        0%, 100% { transform: translateY(0px) rotateX(0deg) rotateY(0deg); }
+        25% { transform: translateY(-10px) rotateX(5deg) rotateY(5deg); }
+        50% { transform: translateY(-20px) rotateX(0deg) rotateY(10deg); }
+        75% { transform: translateY(-10px) rotateX(-5deg) rotateY(5deg); }
+    }
+
+    @@keyframes float-reverse {
+        0%, 100% { transform: translateY(0px) rotateX(0deg) rotateY(0deg); }
+        25% { transform: translateY(10px) rotateX(-5deg) rotateY(-5deg); }
+        50% { transform: translateY(20px) rotateX(0deg) rotateY(-10deg); }
+        75% { transform: translateY(10px) rotateX(5deg) rotateY(-5deg); }
+    }
+
+    /* Fade in animation */
+    .animate-fade-in {
+        opacity: 0;
+        animation: fadeIn 1s ease-out forwards;
+    }
+
+    .animate-slide-up {
+        opacity: 0;
+        transform: translateY(30px);
+        animation: slideUp 0.8s ease-out 0.3s forwards;
+    }
+
+    .animate-slide-up-delay {
+        opacity: 0;
+        transform: translateY(30px);
+        animation: slideUp 0.8s ease-out 0.6s forwards;
+    }
+
+    .animate-pulse {
+        animation: pulse 2s infinite;
+    }
+
+    @@keyframes fadeIn {
+        to { opacity: 1; }
+    }
+
+    @@keyframes slideUp {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @@keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+    }
+
+    /* Background Pattern */
+    .hero-bg-pattern {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image:
+            radial-gradient(circle at 25% 25%, rgba(255,255,255,0.1) 0%, transparent 50%),
+            radial-gradient(circle at 75% 75%, rgba(255,255,255,0.1) 0%, transparent 50%);
+        background-size: 200px 200px;
+        animation: patternMove 20s linear infinite;
+    }
+
+    @@keyframes patternMove {
+        0% { transform: translate(0, 0); }
+        100% { transform: translate(100px, 100px); }
+    }
+
+    .feature-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important;
+    }
+
+    .gallery-preview-grid .preview-card {
+        transition: opacity 0.3s ease;
+    }
+
+    .gallery-preview-grid .preview-card:hover {
+        opacity: 0.8;
+    }
+
+    .cta-section {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+
+</style>

@@ -2,7 +2,7 @@ using System.Text.Json;
 
 namespace ArtnLove.Data;
 
-public class ArtRepository
+public class ArtRepository : IArtRepository
 {
     private readonly string _filePath;
     private readonly object _lock = new object();

@@ -11,9 +11,9 @@ public class ArtworksController : ControllerBase
 {
     private readonly ILogger<ArtworksController> _logger;
     private readonly SupabaseService _supabase;
-    private readonly ArtRepository _repo;
+    private readonly ArtnLove.Data.IArtRepository _repo;
 
-    public ArtworksController(ILogger<ArtworksController> logger, SupabaseService supabase, ArtRepository repo)
+    public ArtworksController(ILogger<ArtworksController> logger, SupabaseService supabase, ArtnLove.Data.IArtRepository repo)
     {
         _logger = logger;
         _supabase = supabase;

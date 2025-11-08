@@ -12,9 +12,23 @@ builder.Services.AddSingleton<SupabaseAuthService>();
 builder.Services.AddHttpClient();
 // Upload options
 builder.Services.Configure<UploadOptions>(builder.Configuration.GetSection("Uploads"));
-builder.Services.AddSingleton<ArtnLove.Data.ArtRepository>();
+// Register art repository: prefer Supabase implementation, fallback to Postgres when DATABASE_URL is set, otherwise file-backed repo
+var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+if (!string.IsNullOrEmpty(databaseUrl))
+{
+    // Register Postgres-backed repository
+    builder.Services.AddSingleton<ArtnLove.Data.IArtRepository, ArtnLove.Data.PostgresArtRepository>();
+}
+else
+{
+    // Register Supabase-backed repository
+    builder.Services.AddSingleton<ArtnLove.Data.IArtRepository, ArtnLove.Data.SupabaseArtRepository>();
+}
 // Image analysis service
 builder.Services.AddSingleton<ArtnLove.Services.ImageAnalysisService>();
+// Auction manager
+builder.Services.AddSingleton<ArtnLove.Services.AuctionManager>();
+// Security headers middleware registered below
 builder.Services.AddControllersWithViews();
 builder.Services.AddHealthChecks();
 
@@ -40,6 +54,10 @@ else
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+// Security middleware
+app.UseMiddleware<ArtnLove.Middleware.SecurityHeadersMiddleware>();
+app.UseMiddleware<ArtnLove.Middleware.InputValidationMiddleware>();
 
 app.UseRouting();
 
